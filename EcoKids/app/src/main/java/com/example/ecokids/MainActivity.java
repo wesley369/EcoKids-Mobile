@@ -35,5 +35,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button btnForum = (Button) findViewById(R.id.btnForum);
+        btnForum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), ForumActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
