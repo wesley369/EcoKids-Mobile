@@ -1,5 +1,6 @@
 package com.example.ecokids;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -89,6 +90,11 @@ public class CadastroActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "Usuário cadastrado com sucesso.");
                         Toast.makeText(CadastroActivity.this, "Usuário cadastrado com sucesso.", Toast.LENGTH_SHORT).show();
+
+                        Log.d(TAG, "Redirecionando para a tela de seleção de personagem");
+                        Intent intent = new Intent(CadastroActivity.this, CharacterSelectionActivity.class);
+                        startActivity(intent);
+
                     } else {
                         Log.w(TAG, "Erro ao cadastrar usuário no Firestore", task.getException());
                         Toast.makeText(CadastroActivity.this, "Erro ao cadastrar usuário.", Toast.LENGTH_SHORT).show();

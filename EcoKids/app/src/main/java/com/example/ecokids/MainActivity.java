@@ -26,5 +26,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button btnPersonagem = (Button) findViewById(R.id.btnPersonagem);
+        btnPersonagem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), CharacterSelectionActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

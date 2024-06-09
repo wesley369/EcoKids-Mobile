@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">EcoKids</string>
+    <string name="app_name">Meu primeiro app</string>
+    <string name="text_login">Já possui uma conta?
+        Faça login utilizando seu nome e senha.</string>
 </resources>
