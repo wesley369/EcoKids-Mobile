@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".RankingActivity">
+
+    <!-- Ranking dos 3 primeiros colocados -->
+    <LinearLayout
+        android:id="@+id/topThreeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        style="@style/containerFirst"
+        >
+
+        <!-- Primeiro colocado -->
+        <LinearLayout
+            android:id="@+id/firstPlaceContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/firstPlaceAvatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_launcher_foreground"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/firstPlaceName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/firstPlacePoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Segundo colocado -->
+        <LinearLayout
+            android:id="@+id/secondPlaceContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/secondPlaceAvatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_launcher_foreground"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/secondPlaceName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/secondPlacePoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Terceiro colocado -->
+        <LinearLayout
+            android:id="@+id/thirdPlaceContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/thirdPlaceAvatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_launcher_foreground"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/thirdPlaceName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/thirdPlacePoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Lista dos demais colocados -->
+    <ListView
+        android:id="@+id/rankingListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Edit_Text"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="5.0sp"
+        android:scrollbars="vertical"
+        />
+</LinearLayout>

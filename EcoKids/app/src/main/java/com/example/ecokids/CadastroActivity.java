@@ -3,13 +3,10 @@ package com.example.ecokids;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,8 +19,6 @@ import java.util.Map;
 
 public class CadastroActivity extends AppCompatActivity {
 
-    private static final String TAG = "CadastroActivity";
-
     private EditText edtEmail, edtSenha, edtNome;
     private Button btnCadastrar;
     private FirebaseAuth mAuth;
@@ -34,9 +29,7 @@ public class CadastroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
         edtEmail = findViewById(R.id.edtEmail);
@@ -44,37 +37,27 @@ public class CadastroActivity extends AppCompatActivity {
         edtNome = findViewById(R.id.edtNome);
         btnCadastrar = findViewById(R.id.btnCadastrar);
 
-        btnCadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = edtEmail.getText().toString().trim();
-                String senha = edtSenha.getText().toString().trim();
-                String nome = edtNome.getText().toString().trim();
+        btnCadastrar.setOnClickListener(v -> {
+            String email = edtEmail.getText().toString().trim();
+            String senha = edtSenha.getText().toString().trim();
+            String nome = edtNome.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(senha) || TextUtils.isEmpty(nome)) {
-                    Toast.makeText(CadastroActivity.this, "Todos os campos são obrigatórios.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Log.d(TAG, "Tentando criar usuário com email: " + email);
-
-                // Create user with email and password
-                mAuth.createUserWithEmailAndPassword(email, senha)
-                        .addOnCompleteListener(CadastroActivity.this, task -> {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "createUserWithEmail: success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-
-                                if (user != null) {
-                                    writeNewUser(user.getUid(), nome, email);
-                                }
-                            } else {
-                                Log.w(TAG, "createUserWithEmail: failure", task.getException());
-                                Toast.makeText(CadastroActivity.this, "Falha na autenticação: " + getFirebaseAuthErrorMessage(task.getException()),
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(senha) || TextUtils.isEmpty(nome)) {
+                Toast.makeText(CadastroActivity.this, "Todos os campos são obrigatórios.", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            mAuth.createUserWithEmailAndPassword(email, senha)
+                    .addOnCompleteListener(CadastroActivity.this, task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                writeNewUser(user.getUid(), nome, email);
+                            }
+                        } else {
+                            Toast.makeText(CadastroActivity.this, "Falha na autenticação: " + getFirebaseAuthErrorMessage(task.getException()), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
     }
 
@@ -82,21 +65,16 @@ public class CadastroActivity extends AppCompatActivity {
         Map<String, Object> user = new HashMap<>();
         user.put("name", name);
         user.put("email", email);
-
-        Log.d(TAG, "Escrevendo usuário no Firestore com ID: " + userId);
+        user.put("points", 0); // Iniciar com 0 pontos
+        user.put("avatarUrl", ""); // Inicialmente sem avatar
 
         db.collection("users").document(userId).set(user)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Log.d(TAG, "Usuário cadastrado com sucesso.");
-                        Toast.makeText(CadastroActivity.this, "Usuário cadastrado com sucesso.", Toast.LENGTH_SHORT).show();
-
-                        Log.d(TAG, "Redirecionando para a tela de seleção de personagem");
                         Intent intent = new Intent(CadastroActivity.this, CharacterSelectionActivity.class);
                         startActivity(intent);
-
+                        finish();
                     } else {
-                        Log.w(TAG, "Erro ao cadastrar usuário no Firestore", task.getException());
                         Toast.makeText(CadastroActivity.this, "Erro ao cadastrar usuário.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -112,7 +90,6 @@ public class CadastroActivity extends AppCompatActivity {
                     return "O endereço de e-mail já está sendo usado por outra conta.";
                 case "ERROR_WEAK_PASSWORD":
                     return "A senha é muito fraca.";
-                // Adicione outros códigos de erro conforme necessário
                 default:
                     return "Erro desconhecido: " + authException.getErrorCode();
             }

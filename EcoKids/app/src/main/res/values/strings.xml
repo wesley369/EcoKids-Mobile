@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Meu primeiro app</string>
-    <string name="text_login">Já possui uma conta?
-        Faça login utilizando seu nome e senha.</string>
+    <string name="text_login">Já possui uma conta? Faça login utilizando seu nome e senha.</string>
+    <string name="enviar">ENVIAR</string>
+    <string name="comentario">Escreva seu comentário</string>
 </resources>

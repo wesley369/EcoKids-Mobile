@@ -1,14 +1,11 @@
 package com.example.ecokids;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +38,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), ForumActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button btnRanking = (Button) findViewById(R.id.btnRanking);
+        btnRanking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), RankingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button btnMetas = (Button) findViewById(R.id.btnMetas);
+        btnMetas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), ToDoListActivity.class);
                 startActivity(intent);
             }
         });

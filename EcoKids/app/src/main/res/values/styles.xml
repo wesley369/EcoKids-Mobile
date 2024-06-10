@@ -1,20 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <style name='containerComponents'>
+    <style name="containerComponents">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">250dp</item>
         <item name="android:background">@drawable/container_componentes</item>
         <item name="android:layout_margin">20dp</item>
     </style>
-
     <style name="Edit_Text">
         <item name="android:background">@drawable/edit_text</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:padding">10dp</item>
         <item name="android:maxLength">25</item>
-
     </style>
-    
+    <style name="containerRodape">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">280dp</item>
+        <item name="android:background">@drawable/container_rodape</item>
+        <item name="android:layout_margin">15dp</item>
+    </style>
+    <style name="containerFirst">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">280dp</item>
+        <item name="android:background">@drawable/first</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+    <style name="containerTree">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">280dp</item>
+        <item name="android:background">@drawable/tree</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:padding">50dp</item>
+    </style>
 </resources>
