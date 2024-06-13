@@ -3,11 +3,15 @@ package com.example.ecokids;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +28,8 @@ public class CharacterSelectionActivity extends AppCompatActivity {
     private Button btnConfirm;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
+
+    private Toolbar toolbar;
     private int[] characterImages = {
             R.drawable.avataralessandra,
             R.drawable.avatarrafael,
@@ -36,6 +42,8 @@ public class CharacterSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_selection);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         viewPager = findViewById(R.id.viewPager);
         edtCharacterName = findViewById(R.id.edtCharacterName);
@@ -65,6 +73,37 @@ public class CharacterSelectionActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.home) {
+            startActivity(new Intent(this, MainActivity.class));
+            return true;
+        } else if (itemId == R.id.Metas) {
+            startActivity(new Intent(this, ToDoListActivity.class));
+            return true;
+        } else if (itemId == R.id.Ranking) {
+            startActivity(new Intent(this, RankingActivity.class));
+            return true;
+        }
+        else if (itemId == R.id.Login) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return true;
+        }
+        else if (itemId == R.id.Forum) {
+            startActivity(new Intent(this, ForumActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void saveCharacterDetails(String userId, String characterName, String characterImageUrl) {
         Map<String, Object> updates = new HashMap<>();
         updates.put("avatarUrl", characterImageUrl);
@@ -81,5 +120,6 @@ public class CharacterSelectionActivity extends AppCompatActivity {
                     }
                 });
     }
-}
 
+
+}

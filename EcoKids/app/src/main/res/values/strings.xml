@@ -3,4 +3,5 @@
     <string name="text_login">Já possui uma conta? Faça login utilizando seu nome e senha.</string>
     <string name="enviar">ENVIAR</string>
     <string name="comentario">Escreva seu comentário</string>
+    <string name="title_activity_main2">MainActivity2</string>
 </resources>

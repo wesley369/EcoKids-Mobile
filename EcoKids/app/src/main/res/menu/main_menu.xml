@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/Metas"
+        android:title="Metas" />
+
+    <item
+        android:id="@+id/Ranking"
+        android:title="Ranking" />
+    <item
+        android:id="@+id/Login"
+        android:title="Login" />
+    <item
+        android:id="@+id/Forum"
+        android:title="Forum" />
+
+</menu>
