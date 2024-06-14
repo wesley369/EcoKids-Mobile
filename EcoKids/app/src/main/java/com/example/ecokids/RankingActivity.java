@@ -1,8 +1,8 @@
 package com.example.ecokids;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,10 +27,22 @@ public class RankingActivity extends AppCompatActivity {
     private List<User> userList;
     private UserAdapter userAdapter;
     private DatabaseReference usersRef;
-    private Handler handler;
 
-    private ImageView firstPlaceAvatar, secondPlaceAvatar, thirdPlaceAvatar;
-    private TextView firstPlaceName, firstPlacePoints, secondPlaceName, secondPlacePoints, thirdPlaceName, thirdPlacePoints;
+    private LinearLayout firstPlaceContainer;
+    private LinearLayout secondPlaceContainer;
+    private LinearLayout thirdPlaceContainer;
+
+    private ImageView firstPlaceAvatar;
+    private TextView firstPlaceName;
+    private TextView firstPlacePoints;
+
+    private ImageView secondPlaceAvatar;
+    private TextView secondPlaceName;
+    private TextView secondPlacePoints;
+
+    private ImageView thirdPlaceAvatar;
+    private TextView thirdPlaceName;
+    private TextView thirdPlacePoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,36 +54,28 @@ public class RankingActivity extends AppCompatActivity {
         userAdapter = new UserAdapter(this, userList);
         rankingListView.setAdapter(userAdapter);
 
+        firstPlaceContainer = findViewById(R.id.firstPlaceContainer);
         firstPlaceAvatar = findViewById(R.id.firstPlaceAvatar);
         firstPlaceName = findViewById(R.id.firstPlaceName);
         firstPlacePoints = findViewById(R.id.firstPlacePoints);
+
+        secondPlaceContainer = findViewById(R.id.secondPlaceContainer);
         secondPlaceAvatar = findViewById(R.id.secondPlaceAvatar);
         secondPlaceName = findViewById(R.id.secondPlaceName);
         secondPlacePoints = findViewById(R.id.secondPlacePoints);
+
+        thirdPlaceContainer = findViewById(R.id.thirdPlaceContainer);
         thirdPlaceAvatar = findViewById(R.id.thirdPlaceAvatar);
         thirdPlaceName = findViewById(R.id.thirdPlaceName);
         thirdPlacePoints = findViewById(R.id.thirdPlacePoints);
 
         usersRef = FirebaseDatabase.getInstance().getReference("users");
 
-        handler = new Handler();
-        startAutoRefresh();
-    }
-
-    private void startAutoRefresh() {
         loadRanking();
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadRanking();
-                handler.postDelayed(this, 60000);
-            }
-        }, 60000);
     }
 
     private void loadRanking() {
-        usersRef.addValueEventListener(new ValueEventListener() {
+        usersRef.orderByChild("points").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userList.clear();
@@ -82,7 +86,7 @@ public class RankingActivity extends AppCompatActivity {
                     }
                 }
 
-
+                // Ordena a lista de usuários pelo número de pontos (decrescente)
                 Collections.sort(userList, new Comparator<User>() {
                     @Override
                     public int compare(User u1, User u2) {
@@ -90,34 +94,40 @@ public class RankingActivity extends AppCompatActivity {
                     }
                 });
 
-                if (userList.size() > 0) {
-                    User firstPlace = userList.get(0);
-                    firstPlaceName.setText(firstPlace.getName());
-                    firstPlacePoints.setText(String.valueOf(firstPlace.getPoints()));
-                    Picasso.get().load(firstPlace.getAvatarUrl()).into(firstPlaceAvatar);
-                }
+                // Atualiza os dados dos três primeiros colocados
+                updateTopThreeUsers();
 
-                if (userList.size() > 1) {
-                    User secondPlace = userList.get(1);
-                    secondPlaceName.setText(secondPlace.getName());
-                    secondPlacePoints.setText(String.valueOf(secondPlace.getPoints()));
-                    Picasso.get().load(secondPlace.getAvatarUrl()).into(secondPlaceAvatar);
-                }
-
-                if (userList.size() > 2) {
-                    User thirdPlace = userList.get(2);
-                    thirdPlaceName.setText(thirdPlace.getName());
-                    thirdPlacePoints.setText(String.valueOf(thirdPlace.getPoints()));
-                    Picasso.get().load(thirdPlace.getAvatarUrl()).into(thirdPlaceAvatar);
-                }
-
+                // Atualiza o ListView com os novos dados
                 userAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // Trata o erro de leitura dos dados
             }
         });
+    }
+
+    private void updateTopThreeUsers() {
+        if (userList.size() > 0) {
+            User firstPlace = userList.get(0);
+            firstPlaceName.setText(firstPlace.getName());
+            firstPlacePoints.setText(String.valueOf(firstPlace.getPoints()));
+            Picasso.get().load(firstPlace.getAvatarUrl()).into(firstPlaceAvatar);
+        }
+
+        if (userList.size() > 1) {
+            User secondPlace = userList.get(1);
+            secondPlaceName.setText(secondPlace.getName());
+            secondPlacePoints.setText(String.valueOf(secondPlace.getPoints()));
+            Picasso.get().load(secondPlace.getAvatarUrl()).into(secondPlaceAvatar);
+        }
+
+        if (userList.size() > 2) {
+            User thirdPlace = userList.get(2);
+            thirdPlaceName.setText(thirdPlace.getName());
+            thirdPlacePoints.setText(String.valueOf(thirdPlace.getPoints()));
+            Picasso.get().load(thirdPlace.getAvatarUrl()).into(thirdPlaceAvatar);
+        }
     }
 }

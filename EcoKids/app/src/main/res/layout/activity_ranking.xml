@@ -7,7 +7,6 @@
     android:padding="16dp"
     tools:context=".RankingActivity">
 
-    <!-- Ranking dos 3 primeiros colocados -->
     <LinearLayout
         android:id="@+id/topThreeContainer"
         android:layout_width="match_parent"
@@ -18,7 +17,7 @@
         style="@style/containerFirst"
         >
 
-        <!-- Primeiro colocado -->
+
         <LinearLayout
             android:id="@+id/firstPlaceContainer"
             android:layout_width="0dp"
@@ -82,7 +81,6 @@
                 android:textSize="16sp"/>
         </LinearLayout>
 
-        <!-- Terceiro colocado -->
         <LinearLayout
             android:id="@+id/thirdPlaceContainer"
             android:layout_width="0dp"
@@ -115,7 +113,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Lista dos demais colocados -->
     <ListView
         android:id="@+id/rankingListView"
         android:layout_width="match_parent"

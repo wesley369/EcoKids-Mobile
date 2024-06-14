@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -38,10 +39,19 @@ public class CharacterSelectionActivity extends AppCompatActivity {
             R.drawable.laurinhaavatar,
     };
 
+    private String[] characterImageUrls = {
+            "https://firebasestorage.googleapis.com/v0/b/ecokids-88271.appspot.com/o/avataralessandra.png?alt=media&token=9ab6a972-a957-4be2-a832-9a1bdb20278b",
+            "https://firebasestorage.googleapis.com/v0/b/ecokids-88271.appspot.com/o/avatarrafael.png?alt=media&token=6fd867ed-07c9-46e1-b6cd-c4800f9a7dfd",
+            "https://firebasestorage.googleapis.com/v0/b/ecokids-88271.appspot.com/o/avatartuanny.png?alt=media&token=d4d525f5-7cb3-4314-a6ec-b84ba046dde9",
+            "https://firebasestorage.googleapis.com/v0/b/ecokids-88271.appspot.com/o/avatarwesley.png?alt=media&token=683119d9-8caf-40ec-b0dc-cd3e0416556a",
+            "https://firebasestorage.googleapis.com/v0/b/ecokids-88271.appspot.com/o/laurinhaavatar.webp?alt=media&token=b61076b3-88bf-4a4f-9486-c8552caefd77",
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_selection);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,8 +73,7 @@ public class CharacterSelectionActivity extends AppCompatActivity {
             }
 
             int selectedCharacterPosition = viewPager.getCurrentItem();
-            int selectedCharacterImage = characterImages[selectedCharacterPosition];
-            String characterImageUrl = "url_para_o_avatar_" + selectedCharacterPosition; // Mapeie a URL correspondente ao índice da imagem
+            String characterImageUrl = characterImageUrls[selectedCharacterPosition];
 
             FirebaseUser user = mAuth.getCurrentUser();
             if (user != null) {
@@ -81,7 +90,7 @@ public class CharacterSelectionActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected( MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.home) {
             startActivity(new Intent(this, MainActivity.class));
@@ -92,12 +101,10 @@ public class CharacterSelectionActivity extends AppCompatActivity {
         } else if (itemId == R.id.Ranking) {
             startActivity(new Intent(this, RankingActivity.class));
             return true;
-        }
-        else if (itemId == R.id.Login) {
+        } else if (itemId == R.id.Login) {
             startActivity(new Intent(this, LoginActivity.class));
             return true;
-        }
-        else if (itemId == R.id.Forum) {
+        } else if (itemId == R.id.Forum) {
             startActivity(new Intent(this, ForumActivity.class));
             return true;
         }
@@ -105,21 +112,24 @@ public class CharacterSelectionActivity extends AppCompatActivity {
     }
 
     private void saveCharacterDetails(String userId, String characterName, String characterImageUrl) {
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("avatarUrl", characterImageUrl);
-        updates.put("characterName", characterName);
 
-        db.collection("users").document(userId).update(updates)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Intent intent = new Intent(CharacterSelectionActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Toast.makeText(CharacterSelectionActivity.this, "Erro ao salvar os detalhes do personagem.", Toast.LENGTH_SHORT).show();
-                    }
+        DocumentReference userRef = db.collection("users").document(userId);
+
+
+        Map<String, Object> characterData = new HashMap<>();
+        characterData.put("characterName", characterName);
+        characterData.put("avatarUrl", characterImageUrl);
+
+
+        userRef.update(characterData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(CharacterSelectionActivity.this, "Personagem selecionado com sucesso!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CharacterSelectionActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(CharacterSelectionActivity.this, "Erro ao selecionar o personagem. Tente novamente.", Toast.LENGTH_SHORT).show();
                 });
     }
-
-
 }

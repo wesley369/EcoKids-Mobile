@@ -40,8 +40,7 @@ public class CharacterAdapter extends RecyclerView.Adapter<CharacterAdapter.Char
         public CharacterViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
-            // Defina a largura e a altura desejadas para o ImageView aqui, por exemplo:
-            // imageView.setLayoutParams(new ViewGroup.LayoutParams(300, 300));
+
         }
     }
 }

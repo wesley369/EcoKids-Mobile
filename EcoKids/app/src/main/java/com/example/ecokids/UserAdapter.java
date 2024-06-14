@@ -8,37 +8,38 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class UserAdapter extends ArrayAdapter<User> {
 
-    public UserAdapter(@NonNull Context context, @NonNull List<User> objects) {
-        super(context, 0, objects);
+    private Context context;
+    private List<User> userList;
+
+    public UserAdapter(Context context, List<User> userList) {
+        super(context, 0, userList);
+        this.context = context;
+        this.userList = userList;
     }
 
-    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_ranking, parent, false);
+        View listItemView = convertView;
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(context).inflate(R.layout.list_item_user, parent, false);
         }
 
-        User user = getItem(position);
+        User currentUser = userList.get(position);
 
-        ImageView userAvatar = convertView.findViewById(R.id.userAvatar);
-        TextView userName = convertView.findViewById(R.id.userName);
-        TextView userPoints = convertView.findViewById(R.id.userPoints);
+        ImageView userAvatarImageView = listItemView.findViewById(R.id.userAvatar);
+        TextView userNameTextView = listItemView.findViewById(R.id.userName);
+        TextView userPointsTextView = listItemView.findViewById(R.id.userPoints);
 
-        if (user != null) {
-            userName.setText(user.getName());
-            userPoints.setText(String.valueOf(user.getPoints()));
-            Picasso.get().load(user.getAvatarUrl()).into(userAvatar);
-        }
+        userNameTextView.setText(currentUser.getName());
+        userPointsTextView.setText(String.valueOf(currentUser.getPoints()));
+        Picasso.get().load(currentUser.getAvatarUrl()).into(userAvatarImageView);
 
-        return convertView;
+        return listItemView;
     }
 }

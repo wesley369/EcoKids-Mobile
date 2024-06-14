@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -59,7 +58,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         Task task = taskList.get(position);
         holder.taskDescription.setText(task.getDescription());
 
-        // Remove the listener before setting the checked state
+        // Remove o listener antes de definir o estado marcado
         holder.taskCompleted.setOnCheckedChangeListener(null);
 
         Boolean completed = userTasksStatus.get(task.getId());
@@ -95,7 +94,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             }
 
             @Override
-            public void onComplete(DatabaseError databaseError, boolean committed, DataSnapshot dataSnapshot) {
+            public void onComplete(DatabaseError databaseError, boolean committed, com.google.firebase.database.DataSnapshot dataSnapshot) {
                 if (databaseError != null) {
                     Toast.makeText(context, "Erro ao atualizar pontos: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 }

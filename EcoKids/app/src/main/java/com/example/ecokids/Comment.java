@@ -6,7 +6,7 @@ public class Comment {
     private long timestamp;
 
     public Comment() {
-        // Default constructor required for calls to DataSnapshot.getValue(Comment.class)
+
     }
 
     public Comment(String userId, String comment, long timestamp) {

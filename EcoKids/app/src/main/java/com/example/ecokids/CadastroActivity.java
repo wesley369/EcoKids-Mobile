@@ -65,8 +65,8 @@ public class CadastroActivity extends AppCompatActivity {
         Map<String, Object> user = new HashMap<>();
         user.put("name", name);
         user.put("email", email);
-        user.put("points", 0); // Iniciar com 0 pontos
-        user.put("avatarUrl", ""); // Inicialmente sem avatar
+        user.put("points", 0); //
+        user.put("avatarUrl", "");
 
         db.collection("users").document(userId).set(user)
                 .addOnCompleteListener(task -> {
